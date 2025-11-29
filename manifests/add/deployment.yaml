@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: add
+spec:
+  selector:
+    matchLabels:
+      app: add
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: add
+    spec:
+      containers:
+      - name: add
+        image: heroacr007.azurecr.io/todo-add:v1
+        ports:
+        - containerPort: 8000
+        env:
+        - name: CONNECTION_STRING
+          value: "Driver={ODBC Driver 18 for SQL Server};Server=tcp:heromssqlserver007.database.windows.net,1433;Database=heromssqldb007;Uid=achinta;Pwd=Raju@834068;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
