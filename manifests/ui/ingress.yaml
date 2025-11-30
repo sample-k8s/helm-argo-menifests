@@ -3,16 +3,17 @@ kind: Ingress
 metadata:
   name: myingress
   labels:
-    app.kubernetes.io/name: myingress
+    app: ui
 spec:
+  ingressClassName: azure-application-gateway
   rules:
-  - host: <Host>
+  - host: ui-task.achinta.site
     http:
       paths:
       - pathType: Prefix
         path: "/"
         backend:
           service:
-            name: <Service>
+            name: ui
             port: 
-              number: <Port>
+              number: 80

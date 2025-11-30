@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myingress
+  labels:
+    app: add
+spec:
+  ingressClassName: azure-application-gateway
+  rules:
+  - host: add-task.achinta.site
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: add
+            port: 
+              number: 80
