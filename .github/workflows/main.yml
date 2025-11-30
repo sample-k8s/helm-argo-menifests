@@ -1,0 +1,45 @@
+name: deploy to aks
+on:
+  workflow_dispatch:
+jobs:
+  deploy:
+    name: deploy App to cluster
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5.0.0
+
+      - name: Azure Login
+        uses: Azure/login@v2.3.0
+        with:
+          client-id: "e8c830a1-d750-4619-a0d0-822aa45f1086"
+          tenant-id: "5c09c46b-8034-4002-8418-77ce48be97db"
+          subscription-id: "b4461466-1e6b-4be2-bb70-1e96a72a41c8"
+
+      - name: aks login
+        run: az aks get-credentials --resource-group k8s-rg --name hero-aks --overwrite-existing
+
+      - name: deploy add
+        working-directory: manifests/add
+        run: | 
+          kubectl apply -f deployment.yaml -n todo --validate=false
+          kubectl apply -f service.yaml -n todo --validate=false
+          kubectl apply -f ingress.yaml -n todo --validate=false
+      - name: deploy get
+        working-directory: manifests/get
+        run: | 
+          kubectl apply -f deployment.yaml -n todo --validate=false
+          kubectl apply -f service.yaml -n todo --validate=false
+          kubectl apply -f ingress.yaml -n todo --validate=false
+      - name: deploy delete
+        working-directory: manifests/delete
+        run: | 
+          kubectl apply -f deployment.yaml -n todo --validate=false
+          kubectl apply -f service.yaml -n todo --validate=false
+          kubectl apply -f ingress.yaml -n todo --validate=false
+      - name: deploy ui
+        working-directory: manifests/ui
+        run: | 
+          kubectl apply -f deployment.yaml -n todo --validate=false
+          kubectl apply -f service.yaml -n todo --validate=false
+          kubectl apply -f ingress.yaml -n todo --validate=false
